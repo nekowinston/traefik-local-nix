@@ -1,16 +1,8 @@
 version: "3"
 services:
-  dnsmasq:
-    restart: always
-    image: jpillora/dnsmasq:latest
-    ports:
-      - 53:53/udp
-    volumes:
-      - ./dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf:ro
-
   traefik:
     restart: always
-    image: traefik:latest
+    image: traefik:v3.0
     ports:
       - "80:80"
       - "443:443"
@@ -19,8 +11,6 @@ services:
       - ./certs:/certs:ro
       - ./traefik/traefik.yml:/traefik.yml:ro
       - ./traefik/dynamic.yml:/dynamic.yml:ro
-    depends_on:
-      - dnsmasq
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.entrypoints=http,https
@@ -30,5 +20,5 @@ services:
 
 networks:
   default:
-    external:
-      name: docker
+    name: docker
+    external: true
