@@ -10,7 +10,7 @@ mkcert -cert-file certs/local.crt -key-file certs/local.key "${DOMAIN}" "*.${DOM
 echo "==> ✅ installed certificates"
 
 echo "==> 🤔 checking dnsmasq config..."
-if [[ $(dig +short "$DOMAIN") ]]; then
+if [[ $(dig +short "$DOMAIN") == "127.0.0.1" ]]; then
 	echo "✅ managed to resolve $DOMAIN to localhost"
 else
 	echo "❌ failed to resolve $DOMAIN. Please check your system-wide dnsmasq config."
