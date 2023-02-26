@@ -47,6 +47,9 @@ nameserver 127.0.0.1
 
 And `ping this.test` should get a response from `127.0.0.1` (universal).
 
+> **Note**\
+> I provide a convenience script, `install.sh`, in this repo, which can handle the remaining steps. The steps below are for the manual installation.
+
 ## 2. Set up a local Root CA, and prepare certificates
 
 Clone this repository
@@ -83,10 +86,10 @@ mkcert -cert-file certs/local.crt -key-file certs/local.key "this.test" "*.this.
 
 ## 3. Set up a Traefik container with HTTPS
 
-Create an external network docker, all future containers which need to be exposed by domain name should use this network.
+Create an external network called `traefik`, all future containers which need to be exposed by domain name should use this network.
 
 ```sh
-docker network create docker
+docker network create traefik
 ```
 
 Start Traefik
@@ -106,7 +109,7 @@ Add the external network web at the end of the file
 ```yaml
 networks:
   default:
-    name: docker
+    name: traefik
     external: true
 ```
 
